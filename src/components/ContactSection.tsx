@@ -30,12 +30,40 @@ export default function ContactSection() {
     return Object.keys(errs).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-    toast({ title: "Message sent!", description: "Thank you for reaching out. I'll get back to you soon." });
-    setForm({ name: "", email: "", message: "" });
-    setErrors({});
+
+    const formData = new FormData(e.target as HTMLFormElement);
+    try {
+      toast({ title: "Sending...", description: "Please wait..." });
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
+
+      const json = await response.json();
+
+      if (json.success) {
+        toast({
+          title: "Success!",
+          description: "Thank you! I'll get back to you soon.",
+        });
+        setForm({ name: "", email: "", message: "" });
+        setErrors({});
+        (e.target as HTMLFormElement).reset();
+      } else {
+        toast({
+          title: "Error!",
+          description: json.message || "Something went wrong. Please try again.",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error!",
+        description: "Network error. Please check your connection.",
+      });
+    }
   };
 
   return (
@@ -54,7 +82,7 @@ export default function ContactSection() {
             <div className="space-y-8">
               <div className="space-y-6">
                 {[
-                  { icon: Mail, text: "tadimurahwa@email.com" },
+                  { icon: Mail, text: "tadimurahwa@gmail.com" },
                   { icon: Phone, text: " (+263) 714825243 / (+263)780047816" },
                   { icon: MapPin, text: "Harare, Kuwadzana Extension" },
                 ].map(({ icon: Icon, text }) => (
@@ -93,15 +121,20 @@ export default function ContactSection() {
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="glass-card rounded-xl p-6 space-y-5" noValidate>
+              <input type="hidden" name="access_key" value="e5b2a534-59c0-4557-a303-f38712bb4214" />
+              <input type="hidden" name="to_email" value="tadimurahwa@gmail.com" />
+              <input type="hidden" name="from_name" value="Portfolio Website" />
               <div>
                 <label htmlFor="name" className="block text-sm font-medium mb-1">Name</label>
                 <input
                   id="name"
+                  name="name"
                   type="text"
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   className="w-full px-4 py-2.5 rounded-lg bg-secondary border border-border focus:border-primary focus:ring-1 focus:ring-ring outline-none transition-colors"
                   placeholder="Your name"
+                  required
                 />
                 {errors.name && <p className="text-destructive text-xs mt-1">{errors.name}</p>}
               </div>
@@ -109,11 +142,13 @@ export default function ContactSection() {
                 <label htmlFor="email" className="block text-sm font-medium mb-1">Email</label>
                 <input
                   id="email"
+                  name="email"
                   type="email"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                   className="w-full px-4 py-2.5 rounded-lg bg-secondary border border-border focus:border-primary focus:ring-1 focus:ring-ring outline-none transition-colors"
                   placeholder="your@email.com"
+                  required
                 />
                 {errors.email && <p className="text-destructive text-xs mt-1">{errors.email}</p>}
               </div>
@@ -121,11 +156,13 @@ export default function ContactSection() {
                 <label htmlFor="message" className="block text-sm font-medium mb-1">Message</label>
                 <textarea
                   id="message"
+                  name="message"
                   rows={5}
                   value={form.message}
                   onChange={(e) => setForm({ ...form, message: e.target.value })}
                   className="w-full px-4 py-2.5 rounded-lg bg-secondary border border-border focus:border-primary focus:ring-1 focus:ring-ring outline-none transition-colors resize-none"
                   placeholder="Your message..."
+                  required
                 />
                 {errors.message && <p className="text-destructive text-xs mt-1">{errors.message}</p>}
               </div>
