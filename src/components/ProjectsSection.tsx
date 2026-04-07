@@ -23,7 +23,7 @@ const projects = [
     description:
       "A beautiful weather application that displays current conditions, forecasts, and interactive maps using a third-party API.",
     tech: ["JavaScript", "HTML/CSS", "REST API", "Chart.js"],
-    github: "https://github.com/makamurahwa-star/aurora-weather-hub",
+    github: "https://github.com/makamurahwa-star/WeatherApp",
     demo: "https://chando.netlify.app/",
   },
 ];
