@@ -15,16 +15,16 @@ const projects = [
     description:
       "A collaborative task manager with real-time updates, drag-and-drop functionality, and team workspace features.",
     tech: ["TypeScript", "React", "Firebase", "Material UI"],
-    github: "https://github.com",
-    demo: "https://example.com",
+    github: "https://github.com/makamurahwa-star/taskapp",
+    demo: "https://murahwa.netlify.app/",
   },
   {
     title: "Weather Dashboard",
     description:
       "A beautiful weather application that displays current conditions, forecasts, and interactive maps using a third-party API.",
     tech: ["JavaScript", "HTML/CSS", "REST API", "Chart.js"],
-    github: "https://github.com",
-    demo: "https://example.com",
+    github: "https://github.com/makamurahwa-star/aurora-weather-hub",
+    demo: "https://chando.netlify.app/",
   },
 ];
 
