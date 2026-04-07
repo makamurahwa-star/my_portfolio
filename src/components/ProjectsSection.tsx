@@ -7,8 +7,8 @@ const projects = [
     description:
       "A fully responsive online store with product filtering, shopping cart, and checkout functionality built with modern web technologies.",
     tech: ["React", "Tailwind CSS", "Node.js", "MongoDB"],
-    github: "https://github.com",
-    demo: "https://example.com",
+    github: "https://github.com/makamurahwa-star/EtherialStore",
+    demo: "https://chitoro.netlify.app/",
   },
   {
     title: "Task Management App",
